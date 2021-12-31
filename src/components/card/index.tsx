@@ -1,11 +1,12 @@
 // eslint-disable-next-line import/no-unresolved
+import { ReactElement } from 'react';
 import { userType } from '../user';
 
 type card = {
   title: string,
   link: string,
   emoji: string,
-  user: userType,
+  user: JSX.Element,
 }
 
 export default function Card(props: card) {

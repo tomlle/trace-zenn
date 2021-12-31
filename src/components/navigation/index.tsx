@@ -7,11 +7,6 @@ const tabs = [
     isActive: true,
   },
   {
-    name: 'Following',
-    link: '#',
-    isActive: false,
-  },
-  {
     name: 'Explore',
     link: '#',
     isActive: false,

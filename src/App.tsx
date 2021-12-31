@@ -3,19 +3,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import './App.css'
-import axios, { AxiosRequestConfig, AxiosError } from "axios"
-import { useEffect } from 'react'
+import axios, { AxiosRequestConfig } from "axios"
+import { useEffect, useState } from 'react'
 import Header from './components/header'
 import Footer from './components/footer'
 import Navigation from './components/navigation'
 import Card from './components/card'
-import User, {userType} from './components/user'
+import User from './components/user'
+import LoginCta from './components/loginCta'
 
 type card = {
-  title: string
-  link: string
-  emoji: string
-  user: userType
+  title: string,
+  link: string,
+  emoji: string,
+  user: JSX.Element
 }
 
 type trendTechType = {
@@ -28,54 +29,88 @@ type trendTechType = {
   user: {
     avatarSmallUrl: string,
     name: string,
-  }
-}
-
-let cards: card[];
-
-// eslint-disable-next-line consistent-return
-async function getTrendTech(): Promise<trendTechType>[] {
-  const options: AxiosRequestConfig = {
-    url: 'https://zenn-api.netlify.app/.netlify/functions/trendTech',
-    method: "GET",
-  };
-
-  let ret = [];
-
-  try {
-    const axiosData = await axios(options);
-    console.log(axiosData);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    ret = axiosData.data.map((trendTech: trendTechType) => ({
-      slug: trendTech.slug,
-      publishedAt: trendTech.publishedAt,
-      emoji: trendTech.emoji,
-      likedCount: trendTech.likedCount,
-      readingTime: trendTech.readingTime,
-      title: trendTech.title,
-      user: {
-        avatarSmallUrl: trendTech.user.avatarSmallUrl,
-        name: trendTech.user.name,
-      }
-    }));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return ret;
-  // eslint-disable-next-line no-empty
-  } catch (e) {
+    username: string
   }
 }
 
 export default function App() {
+  const [techCards,setTechCards] = useState<card[] | []>([]);
+  const [ideaCards,setideaCards] = useState<card[] | []>([]);
   useEffect(()=>{
-    // void getTrendTech();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    cards = getTrendTech().map((trendTech: trendTechType) => ({
-        title: trendTech.title,
-        link: `https://zenn.dev/${trendTech.user.name}/articles/${trendTech.slug}`,
-        emoji: trendTech.emoji,
-        user: <User name={trendTech.user.name} avatarSmallUrl={trendTech.user.avatarSmallUrl} readingTime={trendTech.readingTime} profileLink={`https://zenn.dev/${trendTech.user.name}`}/>,
-    }));
+    async function getTrendTech(): Promise<void> {
+      const options: AxiosRequestConfig = {
+        url: 'https://zenn-api.netlify.app/.netlify/functions/trendTech',
+        method: "GET",
+      };
+      try {
+        const trendTechs = await axios(options);
+        console.log(trendTechs);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        const formatTrendTech: trendTechType[] = trendTechs.data.map((trendTech: trendTechType) => ({
+          slug: trendTech.slug,
+          publishedAt: trendTech.publishedAt,
+          emoji: trendTech.emoji,
+          likedCount: trendTech.likedCount,
+          readingTime: trendTech.readingTime,
+          title: trendTech.title,
+          user: {
+            avatarSmallUrl: trendTech.user.avatarSmallUrl,
+            name: trendTech.user.name,
+            username: trendTech.user.username,
+          }
+        }));
+        const formatCards: card[] = formatTrendTech.map((trendTech: trendTechType): card => ({
+          title: trendTech.title,
+          link: `https://zenn.dev/${trendTech.user.username}/articles/${trendTech.slug}`,
+          emoji: trendTech.emoji,
+          user: <User name={trendTech.user.name} avatarSmallUrl={trendTech.user.avatarSmallUrl} readingTime={trendTech.readingTime} profileLink={`https://zenn.dev/${trendTech.user.username}`}/>,
+        }));
+        setTechCards(formatCards);
+      // eslint-disable-next-line no-empty
+      } catch (e) {
+      
+      }
+    }
+    void getTrendTech();
   });
+  useEffect(()=>{
+    async function getTrendIdea(): Promise<void> {
+      const options: AxiosRequestConfig = {
+        url: 'https://zenn-api.netlify.app/.netlify/functions/trendIdea',
+        method: "GET",
+      };
+      try {
+        const trendTechs = await axios(options);
+        console.log(trendTechs);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        const formatTrendTech: trendTechType[] = trendTechs.data.map((trendTech: trendTechType) => ({
+          slug: trendTech.slug,
+          publishedAt: trendTech.publishedAt,
+          emoji: trendTech.emoji,
+          likedCount: trendTech.likedCount,
+          readingTime: trendTech.readingTime,
+          title: trendTech.title,
+          user: {
+            avatarSmallUrl: trendTech.user.avatarSmallUrl,
+            name: trendTech.user.name,
+            username: trendTech.user.username,
+          }
+        }));
+        const formatCards: card[] = formatTrendTech.map((trendTech: trendTechType): card => ({
+          title: trendTech.title,
+          link: `https://zenn.dev/${trendTech.user.username}/articles/${trendTech.slug}`,
+          emoji: trendTech.emoji,
+          user: <User name={trendTech.user.name} avatarSmallUrl={trendTech.user.avatarSmallUrl} readingTime={trendTech.readingTime} profileLink={`https://zenn.dev/${trendTech.user.username}`}/>,
+        }));
+        setideaCards(formatCards);
+      // eslint-disable-next-line no-empty
+      } catch (e) {
+      
+      }
+    }
+    void getTrendIdea();
+  });
+
   return (
     <div className="SiteWrapper">
       <Header />
@@ -84,12 +119,14 @@ export default function App() {
         <section className="py-10 bg-blue-100">
           <div className="max-w-5xl mx-auto">
             <div className="text-4xl font-bold flex">
-              <h2>Tech</h2>
-              <button type="button">?</button>
+              <h2 className="mr-2">Tech</h2>
+              <button type="button" className="flex justify-center items-end translate-y-[-5px]">
+                <span className="flex justify-center items-center w-[17px] h-[17px] bg-gray-400 text-white rounded-full text-sm" aria-label="詳細を確認する">?</span>
+              </button>
             </div>
             <div className="mt-6">
               <div className="grid grid-cols-2 gap-x-5">
-                {cards.map((cardItem) => (
+                {techCards.map((cardItem) => (
                   <div className="">
                     <Card title={cardItem.title} link={cardItem.link} emoji={cardItem.emoji} user={cardItem.user} />
                   </div>
@@ -98,12 +135,58 @@ export default function App() {
             </div>
             <div className="mt-10 text-center">
               <a href="/" className="text-blue-700">
-                トレンドをもっと見る→
+                トレンドをもっと見る →
+              </a>
+            </div>
+          </div>
+        </section>
+        <section className="py-10 bg-gray-100">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-4xl font-bold flex">
+              <h2 className="mr-2">Ideas</h2>
+              <button type="button" className="flex justify-center items-end translate-y-[-5px]">
+                <span className="flex justify-center items-center w-[17px] h-[17px] bg-gray-400 text-white rounded-full text-sm" aria-label="詳細を確認する">?</span>
+              </button>
+            </div>
+            <div className="mt-6">
+              <div className="grid grid-cols-2 gap-x-5">
+                {ideaCards.map((cardItem) => (
+                  <div className="">
+                    <Card title={cardItem.title} link={cardItem.link} emoji={cardItem.emoji} user={cardItem.user} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-10 text-center">
+              <a href="/" className="text-blue-700">
+                記事をさらに探す →
+              </a>
+            </div>
+          </div>
+        </section>
+        <section className="py-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-4xl font-bold flex">
+              <h2>Books</h2>
+            </div>
+            <div className="mt-6">
+              <div className="grid grid-cols-2 gap-x-5">
+                {/* {cards.map((cardItem) => (
+                  <div className="">
+                    <Card title={cardItem.title} link={cardItem.link} emoji={cardItem.emoji} user={cardItem.user} />
+                  </div>
+                ))} */}
+              </div>
+            </div>
+            <div className="mt-10 text-center">
+              <a href="/" className="text-blue-700">
+                ブックストアで本を探す →
               </a>
             </div>
           </div>
         </section>
       </main>
+      <LoginCta />
       <Footer />
     </div>
   )
