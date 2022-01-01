@@ -11,6 +11,7 @@ import Navigation from './components/navigation'
 import Card from './components/card'
 import User from './components/user'
 import LoginCta from './components/loginCta'
+import Cards from './components/card/cards'
 
 type card = {
   title: string,
@@ -35,81 +36,54 @@ type trendTechType = {
 
 export default function App() {
   const [techCards,setTechCards] = useState<card[] | []>([]);
-  const [ideaCards,setideaCards] = useState<card[] | []>([]);
+  const [ideaCards,setIdeaCards] = useState<card[] | []>([]);
   useEffect(()=>{
-    async function getTrendTech(): Promise<void> {
+    async function getTrend(url: string): Promise<void> {
       const options: AxiosRequestConfig = {
-        url: 'https://zenn-api.netlify.app/.netlify/functions/trendTech',
+        url: `https://zenn-api.netlify.app/.netlify/functions/${url}`,
         method: "GET",
       };
       try {
-        const trendTechs = await axios(options);
-        console.log(trendTechs);
+        const trends = await axios(options);
+        console.log(trends);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        const formatTrendTech: trendTechType[] = trendTechs.data.map((trendTech: trendTechType) => ({
-          slug: trendTech.slug,
-          publishedAt: trendTech.publishedAt,
-          emoji: trendTech.emoji,
-          likedCount: trendTech.likedCount,
-          readingTime: trendTech.readingTime,
-          title: trendTech.title,
+        const formatTrends: trendTechType[] = trends.data.map((trend: trendTechType) => ({
+          slug: trend.slug,
+          publishedAt: trend.publishedAt,
+          emoji: trend.emoji,
+          likedCount: trend.likedCount,
+          readingTime: trend.readingTime,
+          title: trend.title,
           user: {
-            avatarSmallUrl: trendTech.user.avatarSmallUrl,
-            name: trendTech.user.name,
-            username: trendTech.user.username,
+            avatarSmallUrl: trend.user.avatarSmallUrl,
+            name: trend.user.name,
+            username: trend.user.username,
           }
         }));
-        const formatCards: card[] = formatTrendTech.map((trendTech: trendTechType): card => ({
-          title: trendTech.title,
-          link: `https://zenn.dev/${trendTech.user.username}/articles/${trendTech.slug}`,
-          emoji: trendTech.emoji,
-          user: <User name={trendTech.user.name} avatarSmallUrl={trendTech.user.avatarSmallUrl} readingTime={trendTech.readingTime} profileLink={`https://zenn.dev/${trendTech.user.username}`}/>,
+        const cards: card[] = formatTrends.map((trend: trendTechType): card => ({
+          title: trend.title,
+          link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
+          emoji: trend.emoji,
+          user: <User name={trend.user.name} avatarSmallUrl={trend.user.avatarSmallUrl} readingTime={trend.readingTime} profileLink={`https://zenn.dev/${trend.user.username}`}/>,
         }));
-        setTechCards(formatCards);
+        // eslint-disable-next-line default-case
+        switch (url) {
+          case 'trendTech':
+            setTechCards(cards);
+            break;
+          case 'trendIdea':
+            setIdeaCards(cards);
+            break;
+        }
+        setTechCards(cards);
       // eslint-disable-next-line no-empty
       } catch (e) {
       
       }
     }
-    void getTrendTech();
-  });
-  useEffect(()=>{
-    async function getTrendIdea(): Promise<void> {
-      const options: AxiosRequestConfig = {
-        url: 'https://zenn-api.netlify.app/.netlify/functions/trendIdea',
-        method: "GET",
-      };
-      try {
-        const trendTechs = await axios(options);
-        console.log(trendTechs);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        const formatTrendTech: trendTechType[] = trendTechs.data.map((trendTech: trendTechType) => ({
-          slug: trendTech.slug,
-          publishedAt: trendTech.publishedAt,
-          emoji: trendTech.emoji,
-          likedCount: trendTech.likedCount,
-          readingTime: trendTech.readingTime,
-          title: trendTech.title,
-          user: {
-            avatarSmallUrl: trendTech.user.avatarSmallUrl,
-            name: trendTech.user.name,
-            username: trendTech.user.username,
-          }
-        }));
-        const formatCards: card[] = formatTrendTech.map((trendTech: trendTechType): card => ({
-          title: trendTech.title,
-          link: `https://zenn.dev/${trendTech.user.username}/articles/${trendTech.slug}`,
-          emoji: trendTech.emoji,
-          user: <User name={trendTech.user.name} avatarSmallUrl={trendTech.user.avatarSmallUrl} readingTime={trendTech.readingTime} profileLink={`https://zenn.dev/${trendTech.user.username}`}/>,
-        }));
-        setideaCards(formatCards);
-      // eslint-disable-next-line no-empty
-      } catch (e) {
-      
-      }
-    }
-    void getTrendIdea();
-  });
+    void getTrend('trendTech');
+    void getTrend('trendIdea');
+  },[]);
 
   return (
     <div className="SiteWrapper">
@@ -117,7 +91,7 @@ export default function App() {
       <Navigation />
       <main className="Main" id="main">
         <section className="py-10 bg-blue-100">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto px-4 md:p-8">
             <div className="text-4xl font-bold flex">
               <h2 className="mr-2">Tech</h2>
               <button type="button" className="flex justify-center items-end translate-y-[-5px]">
@@ -125,13 +99,7 @@ export default function App() {
               </button>
             </div>
             <div className="mt-6">
-              <div className="grid grid-cols-2 gap-x-5">
-                {techCards.map((cardItem) => (
-                  <div className="">
-                    <Card title={cardItem.title} link={cardItem.link} emoji={cardItem.emoji} user={cardItem.user} />
-                  </div>
-                ))}
-              </div>
+              <Cards cards={techCards}/>
             </div>
             <div className="mt-10 text-center">
               <a href="/" className="text-blue-700">
@@ -141,7 +109,7 @@ export default function App() {
           </div>
         </section>
         <section className="py-10 bg-gray-100">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto px-4 md:p-8">
             <div className="text-4xl font-bold flex">
               <h2 className="mr-2">Ideas</h2>
               <button type="button" className="flex justify-center items-end translate-y-[-5px]">
@@ -149,13 +117,7 @@ export default function App() {
               </button>
             </div>
             <div className="mt-6">
-              <div className="grid grid-cols-2 gap-x-5">
-                {ideaCards.map((cardItem) => (
-                  <div className="">
-                    <Card title={cardItem.title} link={cardItem.link} emoji={cardItem.emoji} user={cardItem.user} />
-                  </div>
-                ))}
-              </div>
+              <Cards cards={ideaCards}/>
             </div>
             <div className="mt-10 text-center">
               <a href="/" className="text-blue-700">
@@ -165,7 +127,7 @@ export default function App() {
           </div>
         </section>
         <section className="py-10">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto px-4 md:p-8">
             <div className="text-4xl font-bold flex">
               <h2>Books</h2>
             </div>

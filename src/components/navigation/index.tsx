@@ -16,7 +16,7 @@ const tabs = [
 export default function Navigation() {
   return (
     <nav className="bg-white">
-      <div className="max-w-7xl mx-auto px-10">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex">
             {tabs.map((tab)=>(
               <NavigationTab name={tab.name} link={tab.link} isActive={tab.isActive} />

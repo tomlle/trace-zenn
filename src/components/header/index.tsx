@@ -3,7 +3,7 @@ import Button from '../button'
 export default function Header(){
   return(
     <header className="bg-white">
-      <div className="max-w-7xl mx-auto px-10">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between py-4">
           <div className="flex items-center">
             <a href="/" className='py-1 block'>
