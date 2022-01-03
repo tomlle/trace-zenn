@@ -18,8 +18,9 @@ export default function Navigation() {
     <nav className="bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex">
-            {tabs.map((tab)=>(
-              <NavigationTab name={tab.name} link={tab.link} isActive={tab.isActive} />
+            {tabs.map((tab, index)=>(
+              // eslint-disable-next-line react/no-array-index-key
+              <NavigationTab key={index} name={tab.name} link={tab.link} isActive={tab.isActive} />
             ))}
         </div>
       </div>
