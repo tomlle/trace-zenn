@@ -5,7 +5,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import './App.css';
 import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import Header from './components/header';
@@ -108,7 +107,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="SiteWrapper">
+    <>
       <Header />
       <Navigation />
       <main className="Main" id="main">
@@ -188,6 +187,6 @@ export default function App() {
       </main>
       <LoginCta />
       <Footer />
-    </div>
+    </>
   );
 }
