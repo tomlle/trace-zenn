@@ -1,99 +1,100 @@
+/* eslint-disable default-case */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import './App.css'
-import axios, { AxiosRequestConfig } from "axios"
-import { useEffect, useState } from 'react'
-import Header from './components/header'
-import Footer from './components/footer'
-import Navigation from './components/navigation'
-import {typeUser} from './components/user'
-import LoginCta from './components/loginCta'
-import Cards from './components/card/cards'
-import {typeCard} from "./components/card"
-import Articles from "./components/article/articles"
-import {typeArticle} from "./components/article"
-import Tooltip from "./components/tooltip"
+import './App.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Header from './components/header';
+import Footer from './components/footer';
+import Navigation from './components/navigation';
+import { typeUser } from './components/user';
+import LoginCta from './components/loginCta';
+import Cards from './components/card/cards';
+import { typeCard } from './components/card';
+import Articles from './components/article/articles';
+import { typeArticle } from './components/article';
+import Tooltip from './components/tooltip';
 
 type typeTrendTech = {
-  slug: string,
-  publishedAt: string,
-  emoji: string,
-  readingTime: number,
-  likedCount: number,
-  title: string,
-  coverImageSmallUrl: string,
-  user: typeUser
-}
+  slug: string;
+  publishedAt: string;
+  emoji: string;
+  readingTime: number;
+  likedCount: number;
+  title: string;
+  coverImageSmallUrl: string;
+  user: typeUser;
+};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getCards(trends: any): typeCard[] {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  const cards: typeCard[] = trends.map((trend: typeTrendTech): typeCard => ({
-    title: trend.title,
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
-    emoji: trend.emoji,
-    user: trend.user
-    }
-  ));
+  const cards: typeCard[] = trends.map(
+    (trend: typeTrendTech): typeCard => ({
+      title: trend.title,
+      link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
+      emoji: trend.emoji,
+      user: trend.user,
+    }),
+  );
 
   return cards;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getArticles(trends: any): typeArticle[] {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  const articles: typeArticle[] = trends.map((trend: typeTrendTech): typeArticle => ({
-    title: trend.title,
-    coverImageSmallUrl: trend.coverImageSmallUrl,
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
-    user: trend.user
-    }
-  ));
+  const articles: typeArticle[] = trends.map(
+    (trend: typeTrendTech): typeArticle => ({
+      title: trend.title,
+      coverImageSmallUrl: trend.coverImageSmallUrl,
+      link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
+      user: trend.user,
+    }),
+  );
 
   return articles;
 }
 
 export default function App() {
-  const [techs,setTechs] = useState<typeCard[]>([]);
-  const [ideas,setIdeas] = useState<typeCard[]>([]);
-  const [books,setBooks] = useState<typeArticle[]>([]);
-  useEffect(()=>{
-    async function getTrend(url: string): Promise<void> {
-      const options: AxiosRequestConfig = {
-        url: `https://zenn-api.netlify.app/.netlify/functions/${url}`,
-        method: "GET",
-      };
-      try {
-        const trends = await axios(options);
-        // eslint-disable-next-line default-case
-        switch (url) {
-          case 'trendTech':
-            // eslint-disable-next-line no-case-declarations
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            setTechs(getCards(trends.data));
-            break;
-          case 'trendIdea':
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            setIdeas(getCards(trends.data));
-            break;
-          case 'trendBook':
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            setBooks(getArticles(trends.data));
-            break;
-        }
-      // eslint-disable-next-line no-empty
-      } catch (e) {
-      
-      }
+  const [techs, setTechs] = useState<typeCard[]>([]);
+  const [ideas, setIdeas] = useState<typeCard[]>([]);
+  const [books, setBooks] = useState<typeArticle[]>([]);
+  useEffect(() => {
+    let unmounted = false;
+    async function setTrend(url: string): Promise<void> {
+      await axios
+        .get(`https://zenn-api.netlify.app/.netlify/functions/${url}`)
+        .then(trends => {
+          if (unmounted) return;
+
+          console.log(trends.data);
+
+          switch (url) {
+            case 'trendTech':
+              if (!unmounted) setTechs(getCards(trends.data));
+              break;
+            case 'trendIdea':
+              if (!unmounted) setIdeas(getCards(trends.data));
+              break;
+            case 'trendBook':
+              if (!unmounted) setBooks(getArticles(trends.data));
+              break;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
-    void getTrend('trendTech');
-    void getTrend('trendIdea');
-    void getTrend('trendBook');
-  },[]);
+    void setTrend('trendTech');
+    void setTrend('trendIdea');
+    void setTrend('trendBook');
+
+    return () => {
+      console.log('mounted');
+      unmounted = true;
+    };
+  }, []);
 
   return (
     <div className="SiteWrapper">
@@ -105,16 +106,21 @@ export default function App() {
             <div className="text-4xl font-bold flex items-end">
               <h2 className="mr-1">Tech</h2>
               <Tooltip content="プログラミングなどの技術についての知見">
-                <button type="button" className="flex justify-center items-end translate-y-[-5px]">
-                  <span className="flex justify-center items-center w-[17px] h-[17px] bg-gray-400 hover:bg-gray-600 text-white rounded-full text-sm" aria-label="詳細を確認する">?</span>
+                <button
+                  type="button"
+                  className="flex justify-center items-end translate-y-[-5px]"
+                >
+                  <span
+                    className="flex justify-center items-center w-[17px] h-[17px] bg-gray-400 hover:bg-gray-600 text-white rounded-full text-sm"
+                    aria-label="詳細を確認する"
+                  >
+                    ?
+                  </span>
                 </button>
               </Tooltip>
             </div>
             <div className="mt-6">
-              {
-                !techs.length &&
-                <Cards cards={techs}/>
-              }
+              {!techs.length && <Cards cards={techs} />}
             </div>
             <div className="mt-10 text-center">
               <a href="/" className="text-blue-700">
@@ -128,17 +134,21 @@ export default function App() {
             <div className="text-4xl font-bold flex items-end">
               <h2 className="mr-1">Ideas</h2>
               <Tooltip content="キャリア、チーム、仕事論、ポエムなど">
-                <button type="button" className="flex justify-center items-end translate-y-[-5px]">
-                  <span className="flex justify-center items-center w-[17px] h-[17px] bg-gray-400 hover:bg-gray-600 text-white rounded-full text-sm" aria-label="詳細を確認する">?</span>
+                <button
+                  type="button"
+                  className="flex justify-center items-end translate-y-[-5px]"
+                >
+                  <span
+                    className="flex justify-center items-center w-[17px] h-[17px] bg-gray-400 hover:bg-gray-600 text-white rounded-full text-sm"
+                    aria-label="詳細を確認する"
+                  >
+                    ?
+                  </span>
                 </button>
               </Tooltip>
             </div>
             <div className="mt-6">
-              {
-                !ideas.length &&
-                <Cards cards={ideas}/>
-              }
-              
+              {!ideas.length && <Cards cards={ideas} />}
             </div>
             <div className="mt-10 text-center">
               <a href="/" className="text-blue-700">
@@ -154,10 +164,7 @@ export default function App() {
             </div>
             <div className="mt-6">
               <div className="grid grid-cols-2 gap-x-5">
-                {
-                  !books.length &&
-                  <Articles articles={books}/>
-                }
+                {!books.length && <Articles articles={books} />}
               </div>
             </div>
             <div className="mt-10 text-center">
@@ -171,6 +178,5 @@ export default function App() {
       <LoginCta />
       <Footer />
     </div>
-  )
+  );
 }
-

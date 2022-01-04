@@ -22,7 +22,7 @@ code {
   min-height: 100vh;
 }
 
-main{
+main {
   flex: 1;
   overflow-x: hidden;
 }

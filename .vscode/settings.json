@@ -1,0 +1,26 @@
+{
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  // 最末行のトリム処理をする(空白削除)
+  "files.trimFinalNewlines": true,
+  // 保存時の自動整形をOn
+  "editor.formatOnSave": true,
+  // ペースト時と入力時の自動整形はOff
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  // 拡張機能が提供している自動整形のプロパティ
+  // ファイル保存時に tslint.json のルールに則って自動整形する
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.tabSize": 2,
+  "editor.wordWrapColumn": 120,
+  // スペースの可視化
+  "editor.renderWhitespace": "all",
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  }
