@@ -19,7 +19,6 @@ export default function Card(props: typeCard) {
       </a>
       <div className="sm:w-[calc(100%-108px)] w-[calc(100%-92px)]">
         <h3 className="font-bold text-gray-600">{props.title}</h3>
-        <div className="mt-2">{props.user}</div>
         <User
           name={props.user.name}
           avatarSmallUrl={props.user.avatarSmallUrl}
