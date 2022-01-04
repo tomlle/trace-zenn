@@ -19,13 +19,15 @@ export default function Card(props: typeCard) {
       </a>
       <div className="sm:w-[calc(100%-108px)] w-[calc(100%-92px)]">
         <h3 className="font-bold text-gray-600">{props.title}</h3>
-        <User
-          name={props.user.name}
-          avatarSmallUrl={props.user.avatarSmallUrl}
-          readingTime={props.user.readingTime}
-          likedCount={props.user.likedCount}
-          profileLink={props.user.profileLink}
-        />
+        <div className="mt-2">
+          <User
+            name={props.user.name}
+            avatarSmallUrl={props.user.avatarSmallUrl}
+            readingTime={props.user.readingTime}
+            likedCount={props.user.likedCount}
+            profileLink={props.user.profileLink}
+          />
+        </div>
       </div>
     </article>
   );
