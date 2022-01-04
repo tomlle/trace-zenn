@@ -2,6 +2,8 @@
 import Article, { typeArticle } from './index';
 
 export default function Articles(props: { articles: typeArticle[] }) {
+  console.log('props Articles');
+  console.log(props.articles);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5">
       {props.articles.map((article, index) => (

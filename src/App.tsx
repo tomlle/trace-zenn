@@ -35,7 +35,13 @@ function getCards(trends: any): typeCard[] {
       title: trend.title,
       link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
       emoji: trend.emoji,
-      user: trend.user,
+      user: {
+        name: trend.user.name,
+        avatarSmallUrl: trend.user.avatarSmallUrl,
+        readingTime: trend.readingTime,
+        profileLink: `https://zenn.dev/${trend.user.username}`,
+        likedCount: trend.likedCount,
+      },
     }),
   );
 
@@ -48,7 +54,12 @@ function getArticles(trends: any): typeArticle[] {
       title: trend.title,
       coverImageSmallUrl: trend.coverImageSmallUrl,
       link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
-      user: trend.user,
+      user: {
+        name: trend.user.name,
+        avatarSmallUrl: trend.user.avatarSmallUrl,
+        profileLink: `https://zenn.dev/${trend.user.username}`,
+        likedCount: trend.likedCount,
+      },
     }),
   );
 
@@ -130,7 +141,7 @@ export default function App() {
               </Tooltip>
             </div>
             <div className="mt-6">
-              {!techs.length && <Cards cards={techs} />}
+              {!!techs.length && <Cards cards={techs} />}
             </div>
             <div className="mt-10 text-center">
               <a href="/" className="text-blue-700">
@@ -158,7 +169,7 @@ export default function App() {
               </Tooltip>
             </div>
             <div className="mt-6">
-              {!ideas.length && <Cards cards={ideas} />}
+              {!!ideas.length && <Cards cards={ideas} />}
             </div>
             <div className="mt-10 text-center">
               <a href="/" className="text-blue-700">
@@ -174,7 +185,7 @@ export default function App() {
             </div>
             <div className="mt-6">
               <div className="grid grid-cols-2 gap-x-5">
-                {!books.length && <Articles articles={books} />}
+                {!!books.length && <Articles articles={books} />}
               </div>
             </div>
             <div className="mt-10 text-center">
