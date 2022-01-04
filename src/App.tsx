@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import './App.css';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import Header from './components/header';
 import Footer from './components/footer';
@@ -65,20 +65,31 @@ export default function App() {
     async function setTrend(url: string): Promise<void> {
       await axios
         .get(`https://zenn-api.netlify.app/.netlify/functions/${url}`)
-        .then(trends => {
+        .then((res: AxiosResponse<any>) => {
           if (unmounted) return;
 
-          console.log(trends.data);
+          const { data, status } = res;
+          console.log(data);
+          console.log(`status: ${status}`);
 
           switch (url) {
             case 'trendTech':
-              if (!unmounted) setTechs(getCards(trends.data));
+              if (!unmounted) {
+                console.log('setTech');
+                setTechs(getCards(data));
+              }
               break;
             case 'trendIdea':
-              if (!unmounted) setIdeas(getCards(trends.data));
+              if (!unmounted) {
+                console.log('setIdea');
+                setIdeas(getCards(data));
+              }
               break;
             case 'trendBook':
-              if (!unmounted) setBooks(getArticles(trends.data));
+              if (!unmounted) {
+                console.log('setBook');
+                setBooks(getArticles(data));
+              }
               break;
           }
         })
