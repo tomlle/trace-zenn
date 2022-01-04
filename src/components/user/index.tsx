@@ -1,10 +1,11 @@
 export type typeUser = {
   name: string;
-  username?: string;
   avatarSmallUrl: string;
-  readingTime?: number;
   likedCount: number;
   profileLink: string;
+  username?: string;
+  readingTime?: number;
+  publishedAt?: string;
   isMini?: boolean;
 };
 
@@ -15,14 +16,21 @@ export default function User(props: typeUser) {
       <div className="ml-2 text-xs">
         <p className="">{props.name}</p>
         <div>
-          <time dateTime="2021-12-20T15:28:33+00:00" className="text-gray-400">
-            3日前
-          </time>
-          ・
-          <span className="ml-1 text-gray-400">
-            {props.readingTime} min read
-          </span>
-          <span className="ml-2 text-gray-400">
+          {!props.isMini && (
+            <>
+              <time
+                dateTime="2021-12-20T15:28:33+00:00"
+                className="text-gray-400 mr-1"
+              >
+                3日前
+              </time>
+              .
+              <span className="mr-2 text-gray-400">
+                {props.readingTime} min read
+              </span>
+            </>
+          )}
+          <span className="text-gray-400">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="inline-block mr-1 "

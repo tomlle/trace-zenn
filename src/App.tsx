@@ -18,7 +18,7 @@ import Articles from './components/article/articles';
 import { typeArticle } from './components/article';
 import Tooltip from './components/tooltip';
 
-type typeTrendTech = {
+type typeTrendTechIdea = {
   slug: string;
   publishedAt: string;
   emoji: string;
@@ -29,9 +29,18 @@ type typeTrendTech = {
   user: typeUser;
 };
 
+type typeTrendBook = {
+  slug: string;
+  likedCount: number;
+  title: string;
+  price: number;
+  coverImageSmallUrl: string;
+  user: typeUser;
+};
+
 function getCards(trends: any): typeCard[] {
   const cards: typeCard[] = trends.map(
-    (trend: typeTrendTech): typeCard => ({
+    (trend: typeTrendTechIdea): typeCard => ({
       title: trend.title,
       link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
       emoji: trend.emoji,
@@ -50,10 +59,11 @@ function getCards(trends: any): typeCard[] {
 
 function getArticles(trends: any): typeArticle[] {
   const articles: typeArticle[] = trends.map(
-    (trend: typeTrendTech): typeArticle => ({
+    (trend: typeTrendBook): typeArticle => ({
       title: trend.title,
       coverImageSmallUrl: trend.coverImageSmallUrl,
       link: `https://zenn.dev/${trend.user.username}/articles/${trend.slug}`,
+      price: trend.price,
       user: {
         name: trend.user.name,
         avatarSmallUrl: trend.user.avatarSmallUrl,
@@ -123,7 +133,7 @@ export default function App() {
       <Navigation />
       <main className="Main" id="main">
         <section className="py-10 bg-blue-100">
-          <div className="max-w-5xl mx-auto px-4 md:p-8">
+          <div className="max-w-5xl mx-auto px-4 md:px-8">
             <div className="text-4xl font-bold flex items-end">
               <h2 className="mr-1">Tech</h2>
               <Tooltip content="プログラミングなどの技術についての知見">
@@ -151,7 +161,7 @@ export default function App() {
           </div>
         </section>
         <section className="py-10 bg-gray-100">
-          <div className="max-w-5xl mx-auto px-4 md:p-8">
+          <div className="max-w-5xl mx-auto px-4 md:px-8">
             <div className="text-4xl font-bold flex items-end">
               <h2 className="mr-1">Ideas</h2>
               <Tooltip content="キャリア、チーム、仕事論、ポエムなど">
@@ -179,14 +189,12 @@ export default function App() {
           </div>
         </section>
         <section className="py-10">
-          <div className="max-w-5xl mx-auto px-4 md:p-8">
+          <div className="max-w-5xl mx-auto px-4 md:px-8">
             <div className="text-4xl font-bold flex">
               <h2>Books</h2>
             </div>
-            <div className="mt-6">
-              <div className="grid grid-cols-2 gap-x-5">
-                {!!books.length && <Articles articles={books} />}
-              </div>
+            <div className="mt-10">
+              {!!books.length && <Articles articles={books} />}
             </div>
             <div className="mt-10 text-center">
               <a href="/" className="text-blue-700">
