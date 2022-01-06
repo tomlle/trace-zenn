@@ -1,12 +1,19 @@
-import Article, {typeArticle} from "./index";
+/* eslint-disable react/no-array-index-key */
+import Article, { typeArticle } from './index';
 
-export default function Articles(props: {articles: typeArticle[]}) {
+export default function Articles(props: { articles: typeArticle[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5">
+    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-8 ">
       {props.articles.map((article, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <Article key={index} title={article.title} link={article.link} coverImageSmallUrl={article.coverImageSmallUrl} user={article.user} />
+        <Article
+          key={index}
+          title={article.title}
+          link={article.link}
+          coverImageSmallUrl={article.coverImageSmallUrl}
+          price={article.price}
+          user={article.user}
+        />
       ))}
     </div>
-  )
+  );
 }
