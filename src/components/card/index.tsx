@@ -18,7 +18,9 @@ export default function Card(props: typeCard) {
         <span className="sm:text-5xl text-4xl">{props.emoji}</span>
       </a>
       <div className="sm:w-[calc(100%-108px)] w-[calc(100%-92px)]">
-        <h3 className="font-bold text-gray-600">{props.title}</h3>
+        <h3 className="font-bold text-gray-600">
+          <a href={props.link}>{props.title}</a>
+        </h3>
         <div className="mt-2">
           <User
             name={props.user.name}
