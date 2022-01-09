@@ -33,7 +33,7 @@ export default function Footer() {
             <ul>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/about"
                   className="text-sm my-2 block hover:underline"
                 >
                   Zennについて
@@ -41,7 +41,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/faq"
                   className="text-sm my-2 block hover:underline"
                 >
                   よくある質問
@@ -49,7 +49,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/changelog"
                   className="text-sm my-2 block hover:underline"
                 >
                   Changelog
@@ -57,7 +57,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/zenn"
                   className="text-sm my-2 block hover:underline"
                 >
                   使い方
@@ -65,7 +65,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://github.com/zenn-dev/zenn-community/projects/1"
                   className="text-sm my-2 block hover:underline"
                 >
                   開発ロードマップ
@@ -80,7 +80,7 @@ export default function Footer() {
             <ul>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/terms"
                   className="text-sm my-2 block hover:underline"
                 >
                   利用規約
@@ -88,7 +88,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/privacy"
                   className="text-sm my-2 block hover:underline"
                 >
                   プライバシーポリシー
@@ -96,7 +96,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/terms/transaction-law"
                   className="text-sm my-2 block hover:underline"
                 >
                   特定法表記
@@ -104,7 +104,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://classmethod.jp/"
                   className="text-sm my-2 block hover:underline"
                 >
                   運営会社
@@ -119,7 +119,7 @@ export default function Footer() {
             <ul>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/mediakit"
                   className="text-sm my-2 block hover:underline"
                 >
                   メディアキット
@@ -127,7 +127,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://twitter.com/zenn_dev"
                   className="text-sm my-2 block hover:underline"
                 >
                   Twitter
@@ -135,7 +135,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://github.com/zenn-dev"
                   className="text-sm my-2 block hover:underline"
                 >
                   GitHub
@@ -143,7 +143,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="http://"
+                  href="https://zenn.dev/zenn/articles/zenn-feed-rss"
                   className="text-sm my-2 block hover:underline"
                 >
                   RSS
