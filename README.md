@@ -1,12 +1,19 @@
-# Getting Started with Create React App
+# ローカル環境で画面確認
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```zsh
+npm i
+npm start
+```
+
+# 構成
+
+React + TypeScript + TailwindCSS
 
 # 環境構築
 
 https://zenn.dev/jpn_asane/articles/d7f44682b74fdc
 
-上記URLを参考に構築。.eslintrc.jsに以下のルールを追加
+上記URLを参考に構築。`.eslintrc.js`に以下のルールを追加
 
 ```javascript
 rules: {
