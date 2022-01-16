@@ -4,12 +4,12 @@ import NavigationTab from './navigation-tab';
 const tabs = [
   {
     name: 'Trending',
-    link: '#',
+    link: '/',
     isActive: true,
   },
   {
     name: 'Explore',
-    link: '#',
+    link: 'https://zenn.dev/articles/explore',
     isActive: false,
   },
 ];
