@@ -1,6 +1,6 @@
-# 注意：Loading...から画面切り替わりません
-Zennサイト情報取得に使用していた外部APIがCORS対策したのでLoading...から画面が切り替わらない現象になっています。
-自作APIを実装し回避するまでに画面を確認したい場合は、下記Chromeプラグインをご利用ください。  
+# ⚠「Loading...」から画面切り替わりません
+Zennサイト情報取得に使用していた外部APIがCORS対策したのでLoading...から画面が切り替わらない現象になっています。  
+外部APIの使用を辞めて、APIを自作することで回避しようと考えてますが、それまでに画面確認したい際は、下記Chromeプラグインをご利用ください。  
 
 Access Control-Allow-Origin - Unblock  
 https://add0n.com/access-control.html
