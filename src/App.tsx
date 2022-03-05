@@ -81,7 +81,7 @@ export default function App() {
     let unmounted = false;
     async function setTrend(url: string): Promise<void> {
       await axios
-        .get(`https://zenn-api.netlify.app/.netlify/functions/${url}`)
+        .get(`https://zenn-trend-api-eight.vercel.app/${url}`)
         .then((res: AxiosResponse<any>) => {
           if (unmounted) return;
 
