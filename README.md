@@ -1,9 +1,5 @@
 # ~~⚠「Loading...」から画面切り替わりません~~
 ~~Zennサイト情報取得に使用していた外部APIがCORS対策したのでLoading...から画面が切り替わらない現象になっています。~~  
-~~外部APIの使用を辞めて、APIを自作することで回避しようと考えてますが、それまでに画面確認したい際は、下記Chromeプラグインをご利用ください。~~
-
-~~Access Control-Allow-Origin - Unblock.~~  
-~~https://add0n.com/access-control.html~~
 
 API実装しCORS解決しました。  
 https://github.com/tomlle/zenn-trend-api
