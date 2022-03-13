@@ -81,7 +81,7 @@ export default function App() {
     let unmounted = false;
     async function setTrend(url: string): Promise<void> {
       await axios
-        .get(`https://fetch-zenn-trend-api.vercel.app/api/${url}`)
+        .get(`https://zenn-trend-api-deno.vercel.app/api/${url}`)
         .then((res: AxiosResponse<any>) => {
           if (unmounted) return;
 
